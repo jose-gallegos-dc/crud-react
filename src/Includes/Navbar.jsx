@@ -105,14 +105,14 @@ function Navbar() {
                             </NavLink>
 
                             <NavLink
-                                to="/users"
+                                to="/suppliers"
                                 className={({ isActive }) =>
                                     isActive
                                         ? "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group bg-gray-200"
                                         : "flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group"
                                 }
                             >
-                                <span className="ms-3">Usuarios</span>
+                                <span className="ms-3">Proveedores</span>
 
                             </NavLink>
                         </li>

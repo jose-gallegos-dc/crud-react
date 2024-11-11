@@ -12,18 +12,20 @@ function Login() {
         e.preventDefault();
 
         try {
-            const response = await api.post('inicio-sesion', {
+            setError('');
+            const response = await api.post('auth/login', {
                 email,
                 password,
             });
+            // console.log(response.data.token);
 
-            if (response.data.success) {
-                localStorage.setItem('token', response.data.data.token);
+            if (response.data.estatus) {
+                localStorage.setItem('token', response.data.token);
                 navigate('/dashboard');
             }
         } catch (err) {
-            const { success, message } = err.response.data;
-            setError(message);
+            const { estatus, mensaje, errores } = err.response.data;
+            setError(mensaje);
         }
     };
 

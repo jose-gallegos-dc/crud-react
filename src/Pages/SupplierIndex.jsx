@@ -3,17 +3,17 @@ import { Navbar } from '../Includes';
 import { useEffect, useState } from 'react';
 import { api } from '../Services';
 
-function UserIndex() {
+function SupplierIndex() {
     const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
+    const [suppliers, setsuppliers] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const getUsers = async () => {
+    const getsuppliers = async () => {
         try {
-            const { data } = await api.get('perfiles-usuario');
+            const { data } = await api.get('proveedores?numeroPagina=1&registrosPorPagina=10');
 
-            setUsers(data.data);
+            setsuppliers(data.data);
 
             setLoading(false);
         } catch (err) {
@@ -22,13 +22,13 @@ function UserIndex() {
         }
     };
 
-    const deleteUser = async (userId) => {
+    const deletesupplier = async (supplierId) => {
         try {
             if (window.confirm('¿Estás segur@ de eliminar este registro?')) {
-                const { data } = await api.delete(`perfiles-usuario/${userId}`);
+                const { data } = await api.delete(`perfiles-usuario/${supplierId}`);
 
                 if (data.success) {
-                    getUsers();
+                    getsuppliers();
                 }
             }
         } catch (err) {
@@ -38,7 +38,7 @@ function UserIndex() {
     };
 
     useEffect(() => {
-        getUsers();
+        getsuppliers();
     }, []);
 
     return (
@@ -49,31 +49,34 @@ function UserIndex() {
                 <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
 
                     <div className='flex justify-between mb-4'>
-                        <h2 className="text-xl font-semibold">Usuarios</h2>
+                        <h2 className="text-xl font-semibold">Proveedores</h2>
                         <button
-                            onClick={() => navigate('/users/create')}
+                            onClick={() => navigate('/suppliers/create')}
                             className="p-2 bg-emerald-600 text-white rounded"
                         >
-                            Nuevo usuario
+                            Nuevo proveedor
                         </button>
                     </div>
 
                     {error && <p className="text-red-500">{error}</p>}
                     {loading ? (
-                        <p>Cargando usuarios...</p>
+                        <p>Cargando datos...</p>
                     ) : (
                         <div className="flex items-center justify-center w-full">
-                            <table className="w-2/3 text-sm text-left text-gray-500 rtl:text-right">
+                            <table className="max-w-4xl text-sm text-left text-gray-500 rtl:text-right">
                                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
                                     <tr>
                                         <th scope="col" className="px-6 py-3">
-                                            User id
+                                            proveedor ID
                                         </th>
                                         <th scope="col" className="px-6 py-3">
-                                            Email
+                                            Nombre
                                         </th>
                                         <th scope="col" className="px-6 py-3">
-                                            Estatus
+                                            Celular
+                                        </th>
+                                        <th scope="col" className="px-6 py-3">
+                                            Ciudad
                                         </th>
                                         <th scope="col" className="px-6 py-3">
                                             Acciones
@@ -81,27 +84,33 @@ function UserIndex() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
-                                        <tr key={user.user_id} className="border-b odd:bg-white even:bg-gray-50">
+                                    {suppliers.map((supplier) => (
+                                        <tr key={supplier.proveedorID} className="border-b odd:bg-white even:bg-gray-50">
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                                {user.user_id}
+                                                {supplier.proveedorID}
                                             </th>
                                             <td className="px-6 py-4">
-                                                {user.email}
+                                                {supplier.nombreProveedor}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {user.is_active ? 'Activo' : 'No activo'}
+                                                {supplier.celular}
                                             </td>
+                                            <td className="px-6 py-4">
+                                                {supplier.municipio}
+                                            </td>
+                                            {/* <td className="px-6 py-4">
+                                                {supplier.is_active ? 'Activo' : 'No activo'}
+                                            </td> */}
                                             <td className="px-6 py-4">
                                                 <button
-                                                    onClick={() => navigate(`/users/${user.user_id}/edit`)}
+                                                    onClick={() => navigate(`/suppliers/${supplier.proveedorID}/edit`)}
                                                     className="p-2 bg-indigo-600 text-white rounded"
                                                 >
                                                     Editar
                                                 </button>
 
                                                 <button
-                                                    onClick={() => deleteUser(user.user_id)}
+                                                    onClick={() => deletesupplier(supplier.proveedorID)}
                                                     className="ms-4 p-2 bg-rose-600 text-white rounded"
                                                 >
                                                     Eliminar
@@ -119,4 +128,4 @@ function UserIndex() {
     );
 }
 
-export default UserIndex;
+export default SupplierIndex;

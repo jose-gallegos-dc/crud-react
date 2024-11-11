@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { Dashboard, Login, Home, UserIndex, UserCreate, UserUpdate, NotFound } from '../Pages';
+import { Dashboard, Login, Home, SupplierIndex, UserCreate, UserUpdate, NotFound } from '../Pages';
 import { ProtectedRoute, PublicRoute } from '../Services';
 
 const router = createBrowserRouter([
@@ -24,10 +24,10 @@ const router = createBrowserRouter([
         ),
     },
     {
-        path: '/users',
+        path: '/suppliers',
         element: (
             <ProtectedRoute>
-                <UserIndex />
+                <SupplierIndex />
             </ProtectedRoute>
         ),
     },
