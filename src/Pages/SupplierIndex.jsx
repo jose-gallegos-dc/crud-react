@@ -9,7 +9,7 @@ function SupplierIndex() {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const getsuppliers = async () => {
+    const suppliersGet = async () => {
         try {
             const { data } = await api.get('proveedores?numeroPagina=1&registrosPorPagina=10');
 
@@ -22,13 +22,13 @@ function SupplierIndex() {
         }
     };
 
-    const deletesupplier = async (supplierId) => {
+    const supplierDelete = async (supplierId) => {
         try {
-            if (window.confirm('¿Estás segur@ de eliminar este registro?')) {
-                const { data } = await api.delete(`perfiles-usuario/${supplierId}`);
+            if (window.confirm('¿Estás segur@ de eliminar este proveedor?')) {
+                const { data } = await api.delete(`proveedores/${supplierId}`);
 
                 if (data.success) {
-                    getsuppliers();
+                    suppliersGet();
                 }
             }
         } catch (err) {
@@ -38,7 +38,7 @@ function SupplierIndex() {
     };
 
     useEffect(() => {
-        getsuppliers();
+        suppliersGet();
     }, []);
 
     return (
@@ -110,7 +110,7 @@ function SupplierIndex() {
                                                 </button>
 
                                                 <button
-                                                    onClick={() => deletesupplier(supplier.proveedorID)}
+                                                    onClick={() => supplierDelete(supplier.proveedorID)}
                                                     className="ms-4 p-2 bg-rose-600 text-white rounded"
                                                 >
                                                     Eliminar
