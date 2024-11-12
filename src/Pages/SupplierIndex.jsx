@@ -17,8 +17,8 @@ function SupplierIndex() {
 
             setLoading(false);
         } catch (err) {
-            const { success, message } = err.response.data;
-            setError(message);
+            const { estatus, mensaje } = err.response.data;
+            setError(mensaje);
         }
     };
 
@@ -27,13 +27,13 @@ function SupplierIndex() {
             if (window.confirm('¿Estás segur@ de eliminar este proveedor?')) {
                 const { data } = await api.delete(`proveedores/${supplierId}`);
 
-                if (data.success) {
+                if (data.estatus) {
                     suppliersGet();
                 }
             }
         } catch (err) {
-            const { success, message } = err.response.data;
-            setError(message);
+            const { estatus, mensaje } = err.response.data;
+            setError(mensaje);
         }
     };
 
